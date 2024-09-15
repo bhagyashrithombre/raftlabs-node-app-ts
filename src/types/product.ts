@@ -11,11 +11,10 @@ export interface DbProduct extends DbData {
 export interface IGetAllProductsArgs {
     page: number;
     limit: number;
-    name?: string;
+    productName?: string;
     sort_name?: string;
     sort_price?: string;
     sort_qty?: string;
-    sort_rating?: string;
 }
 
 export const productType = new GraphQLObjectType({

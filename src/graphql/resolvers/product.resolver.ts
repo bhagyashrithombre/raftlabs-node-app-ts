@@ -66,19 +66,18 @@ export const GetAllProducts = {
         sort_name: { type: GraphQLString },
         sort_price: { type: GraphQLString },
         sort_qty: { type: GraphQLString },
-        sort_rating: { type: GraphQLString },
     },
     resolve: async (_root: unknown, args: { [argName: string]: any }, context: unknown) => {
         await verifyAuth(context as AuthContext);
 
-        const { page, limit, name, sort_name, sort_price, sort_qty } = args as IGetAllProductsArgs;
+        const { page, limit, productName, sort_name, sort_price, sort_qty } = args as IGetAllProductsArgs;
         const skip = (page - 1) * limit;
         let sorting: Record<string, 1 | -1> = {};
 
         const filter: any = {};
 
-        if (name) {
-            filter.name = { $regex: new RegExp(name, "i") };
+        if (productName) {
+            filter.name = { $regex: new RegExp(productName, "i") };
         }
         if (args.userIds) {
             filter.userId = { $in: args.userIds.map((id: string) => new Types.ObjectId(id)) };
