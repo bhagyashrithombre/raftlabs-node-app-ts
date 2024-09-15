@@ -160,7 +160,7 @@ const patch = asyncHandler(async (req: Request, res: Response) => {
 const remove = asyncHandler(async (req: Request, res: Response) => {
     const { productId } = req.params;
 
-    const product = await Product.findByIdAndDelete(productId);
+    const product = await Product.findOneAndDelete({ _id: productId, userId: (req as AuthenticatedRequest).user._id });
     if (!product) {
         const response = {
             status: OK,

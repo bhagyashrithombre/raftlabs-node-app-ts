@@ -176,12 +176,12 @@ export const UpdateProduct = {
         qty: { type: GraphQLInt },
     },
     resolve: async (_root: unknown, args: { [argName: string]: any }, context: unknown, info: GraphQLResolveInfo) => {
-        await verifyAuth(context as AuthContext);
+        const user = await verifyAuth(context as AuthContext);
         const { _id, ...update } = args as Partial<DbProduct>;
         const projections = getProjection(info);
 
         try {
-            const updatedProduct = await Product.findOneAndUpdate({ _id }, update, {
+            const updatedProduct = await Product.findOneAndUpdate({ _id, userId: user._id }, update, {
                 new: true,
                 fields: projections,
                 populate: { path: "userId", select: "firstName lastName email" },
