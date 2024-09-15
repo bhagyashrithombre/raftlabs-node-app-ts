@@ -48,9 +48,6 @@ const getAll = asyncHandler(async (req: Request, res: Response) => {
     if (req.query.sort_qty) {
         Object.assign(sortObject, { qty: req.query.sort_qty === "asc" ? 1 : -1 });
     }
-    if (req.query.sort_rating) {
-        Object.assign(sortObject, { rating: req.query.sort_rating === "asc" ? 1 : -1 });
-    }
     if (Object.keys(sortObject).length > 0) {
         sorting = sortObject;
     }
@@ -71,7 +68,7 @@ const getAll = asyncHandler(async (req: Request, res: Response) => {
             },
         },
         { $unwind: "$user" },
-        { $project: { user: 1, name: 1, price: 1, qty: 1, rating: 1 } },
+        { $project: { user: 1, name: 1, price: 1, qty: 1 } },
         {
             $facet: {
                 metadata: [{ $count: "total" }, { $addFields: { page, limit } }],
@@ -108,7 +105,7 @@ const get = asyncHandler(async (req: Request, res: Response) => {
             },
         },
         { $unwind: "$user" },
-        { $project: { user: 1, name: 1, price: 1, qty: 1, rating: 1 } },
+        { $project: { user: 1, name: 1, price: 1, qty: 1 } },
     ]);
     if (!product) {
         const response = {

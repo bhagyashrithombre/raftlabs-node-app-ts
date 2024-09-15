@@ -5,33 +5,16 @@ import { TOKEN_TYPE } from "./token";
 
 export type ObjectId = mongoose.Schema.Types.ObjectId;
 
-export interface DbDataBase {
+export interface DbData {
     _id: ObjectId;
     createdAt?: Date;
     updatedAt?: Date;
 }
 
-export interface DbData extends DbDataBase {}
-
 export interface GetListResult<T> {
     records: T[];
     count: number;
 }
-
-export interface LookupOption {
-    search?: string;
-    limit?: number;
-    enabled?: boolean;
-}
-
-export interface Response<T> {
-    success: boolean;
-    message: string;
-    data: T[] | T | object;
-    status: number;
-}
-
-export type TypeOfUsers = "user";
 
 export interface AuthenticatedRequest extends Request {
     user: DbUser;
@@ -42,4 +25,10 @@ export interface IToken {
     iat: number;
     exp: number;
     type: TOKEN_TYPE;
+}
+
+export interface AuthContext {
+    headers: {
+        authorization?: string;
+    };
 }

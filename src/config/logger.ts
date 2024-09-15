@@ -8,7 +8,7 @@ const customFormat = printf(({ level, message, label, timestamp }) => {
 
 const logger = createLogger({
     level: "info",
-    format: combine(colorize(), label({ label: "MyApp" }), timestamp(), customFormat),
+    format: combine(colorize(), label({ label: "NODE-APP" }), timestamp(), customFormat),
     transports: [new transports.Console(), new transports.File({ filename: "app.log" })],
 });
 

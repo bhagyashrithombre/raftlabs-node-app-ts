@@ -21,10 +21,6 @@ const schema = new mongoose.Schema<DbProduct>(
             type: Number,
             required: true,
         },
-        rating: {
-            type: Number,
-            required: true,
-        },
     },
     {
         timestamps: true,

@@ -4,9 +4,10 @@ import { Request, Response, NextFunction } from "express";
 import { AppError } from "./errorhandler.middleware";
 import { DbUser } from "../types/user";
 
+// Verify callback
 const verifyCallback =
-    (req: Request, resolve: (value?: unknown) => void, reject: (reason?: any) => void) =>
-    async (err: any, user: DbUser, info: any) => {
+    (req: Request, resolve: (value?: unknown) => void, reject: (reason?: unknown) => void) =>
+    async (err: Error | null, user: DbUser | false, info: unknown) => {
         if (err || info || !user) {
             return reject(new AppError(UNAUTHORIZED, "AUTH: Please authenticate"));
         }
@@ -15,7 +16,8 @@ const verifyCallback =
         resolve();
     };
 
-const auth = () => async (req: Request, res: Response, next: NextFunction) =>
+// Auth middleware
+const auth = async (req: Request, res: Response, next: NextFunction) =>
     new Promise((resolve, reject) => {
         passport.authenticate("jwt", { session: false }, verifyCallback(req, resolve, reject))(req, res, next);
     })

@@ -10,7 +10,7 @@ import logger from "../config/logger";
 
 // POST /register
 const register = asyncHandler(async (req: Request, res: Response) => {
-    const isUserExist = await User.isUserExist(req.body.email, req.body.username, req.body.address);
+    const isUserExist = await User.isUserExist(req.body.email);
 
     if (isUserExist) {
         const response = {

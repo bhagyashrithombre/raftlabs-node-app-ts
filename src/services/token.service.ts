@@ -8,6 +8,7 @@ import { IToken, ObjectId } from "../types/common";
 import { NOT_FOUND } from "http-status";
 import { AppError } from "../middlewares/errorhandler.middleware";
 
+// Generate token with user data and expiry
 const generateToken = (user: Partial<DbUser>, expires: moment.Moment, type: TOKEN_TYPE, secret = env.jwt.secret) => {
     const payload: IToken = {
         sub: user,
@@ -18,6 +19,7 @@ const generateToken = (user: Partial<DbUser>, expires: moment.Moment, type: TOKE
     return jwt.sign(payload, secret as string);
 };
 
+// Generate auth tokens - access and refresh
 const generateAuthTokens = async (user: DbUser) => {
     const userId = user._id;
 
@@ -41,6 +43,7 @@ const generateAuthTokens = async (user: DbUser) => {
     };
 };
 
+// Save token to database
 const saveToken = async (token: string, userId: ObjectId, expires: moment.Moment, type: TOKEN_TYPE) => {
     const tokenDoc = await Token.create({
         token,
@@ -52,6 +55,7 @@ const saveToken = async (token: string, userId: ObjectId, expires: moment.Moment
     return tokenDoc;
 };
 
+// Verify token from database
 const verifyToken = async (token: string, type: TOKEN_TYPE) => {
     const payload = jwt.verify(token, env.jwt.secret);
 

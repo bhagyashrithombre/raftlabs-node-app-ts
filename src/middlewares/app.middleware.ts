@@ -6,7 +6,10 @@ import { jwtStrategy } from "../config/passport";
 import routes from "../routes";
 import env from "../config/env";
 import authLimiter from "./ratelimiter.middleware";
+import { graphqlHTTP } from "express-graphql";
+import schema from "../graphql/schema";
 
+// App middleware
 const appMiddleware = (app: Express) => {
     // parse json request body
     app.use(express.json());
@@ -23,6 +26,15 @@ const appMiddleware = (app: Express) => {
     passport.use("jwt", jwtStrategy);
 
     app.use(requestLogger);
+
+    // graphql api
+    app.use(
+        "/graphql",
+        graphqlHTTP({
+            schema: schema,
+            graphiql: true,
+        }),
+    );
 
     // limit repeated failed requests to auth endpoints
     if (env.nodeEnv === "production") {

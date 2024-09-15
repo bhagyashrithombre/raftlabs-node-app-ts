@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { BAD_REQUEST, NOT_FOUND } from "http-status";
 import logger from "../config/logger";
 
+// AppError class
 export class AppError extends Error {
     statusCode: number;
 
@@ -17,8 +18,10 @@ export class AppError extends Error {
 }
 
 const requestLogger = (req: Request, res: Response, next: NextFunction) => {
-    logger.info(`${req.method} url:: ${req.url}`);
-    console.log(`${req.method} url:: ${req.url}`);
+    if (req.url !== "/graphql") {
+        logger.info(`${req.method} url:: ${req.url}`);
+        console.log(`${req.method} url:: ${req.url}`);
+    }
     next();
 };
 

@@ -4,7 +4,7 @@ import authRoutes from "./auth.router";
 
 const router = Router();
 
-const defaultRoutes = [
+const routes = [
     {
         path: "/auth",
         route: authRoutes,
@@ -15,7 +15,7 @@ const defaultRoutes = [
     },
 ];
 
-defaultRoutes.forEach((route) => {
+routes.forEach((route) => {
     router.use(route.path, route.route);
 });
 

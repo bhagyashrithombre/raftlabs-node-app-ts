@@ -1,126 +1,134 @@
-# Node.js TypeScript Backend Boilerplate
+# Node Developer Intern Test Project
 
-Welcome to our Node.js backend boilerplate project built with TypeScript! This boilerplate provides a solid foundation for creating robust and scalable backend applications using Node.js and TypeScript.
+This project is a **Node.js** application built as part of an interview process for the **Node Developer Intern Test**. The goal of this project is to demonstrate proficiency in building a RESTful API with **Node.js**, **Express.js**, **GraphQL**, and **Mongoose**, along with authentication, authorization, and error handling.
+
+The project also integrates **TypeScript** for maintainable and scalable code and **Winston** for logging. Extra credits are given for using **Hasura** for instant GraphQL APIs.
 
 ## Features
 
-- **Express.js**: Utilizes Express.js, a fast, unopinionated, minimalist web framework for Node.js, for handling HTTP requests.
-- **TypeScript**: Written entirely in TypeScript to provide type safety and enhanced development experience.
-- **Routing**: Organized routing setup for better code organization and readability.
-- **Middleware**: Middleware setup for handling common functionalities like error handling, logging, etc.
-- **Environment Variables**: Uses environment variables for configuration management.
-- **Linting**: Integrated ESLint for code linting to maintain code quality.
+-   **User Registration & Login**: Secure password storage using **bcrypt**.
+-   **CRUD Operations**: Full CRUD functionality for managing data.
+-   **Search and Filter**: Ability to search and filter data based on user-defined parameters.
+-   **Pagination and Sorting**: Efficient data retrieval with pagination and sorting.
+-   **Authentication**: JWT-based authentication and role-based access control.
+-   **GraphQL API**: Integration of GraphQL for optimized querying.
+-   **Error Handling & Logging**: Centralized error handling and logging using **Winston**.
 
-## Prerequisites
+## Technologies Used
 
-Before getting started, ensure you have the following installed on your machine:
+-   **Node.js**: Backend runtime environment.
+-   **Express.js**: Web framework for building RESTful APIs.
+-   **TypeScript**: Typed superset of JavaScript for scalability.
+-   **GraphQL**: Query language to interact with the API.
+-   **Hasura**: Instant GraphQL APIs on PostgreSQL.
+-   **Mongoose**: ODM for MongoDB to interact with the database.
+-   **JWT**: For authentication and authorization.
+-   **Winston**: For logging errors and requests.
 
-- [Node.js](https://nodejs.org/) (v14.x or higher)
-- [npm](https://www.npmjs.com/) (v6.x or higher) or [Yarn](https://yarnpkg.com/) (v1.22.x or higher)
-- [Docker](https://www.docker.com/) (optional, for containerization)
-
-## Getting Started
+## Installation
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/your-username/your-project.git
-   ```
+    ```bash
+    git clone https://github.com/bhagyashrithombre/raftlabs-node-app-ts.git
+    cd raftlabs-node-app-ts
+    ```
 
-2. Navigate into the project directory:
+2. Install dependencies:
 
-   ```bash
-   cd your-project
-   ```
+    ```bash
+    npm install
+    ```
 
-3. Install dependencies:
+3. Set up environment variables. Create a `.env` file in the root directory and add the following:
 
-   Using npm:
+    ```bash
+    NODE_ENV=test
+    PORT=4000
+    MONGO_URI=mongodb://localhost:27017/mydb
+    JWT_SECRET=your_jwt_secret
+    ```
 
-   ```bash
-   npm install
-   ```
+4. Start the application:
 
-   Using Yarn:
+    - For development:
 
-   ```bash
-   yarn
-   ```
+        ```bash
+        npm run dev
+        ```
 
-4. Set up environment variables:
+    - For production:
 
-   - Create a `.env` file in the root of the project.
-   - Define your environment variables in the `.env` file. You can use `.env.example` as a reference.
+        ```bash
+        npm run start
+        ```
 
-5. Build the project:
+## Scripts
 
-   ```bash
-   npm run build
-   ```
+-   `npm run build`: Build the project using **swc** (compiles TypeScript).
+-   `npm run start`: Build and start the application.
+-   `npm run dev`: Run the application in development mode with **nodemon**.
+-   `npm run eslint`: Run **ESLint** to check code quality.
+-   `npm run eslint:fix`: Fix ESLint errors.
+-   `npm run prettier`: Run **Prettier** to format code.
 
-   or
+## API Endpoints
 
-   ```bash
-   yarn build
-   ```
+### RESTful API
 
-6. Start the server:
+-   **POST** `/api/register`: Register a new user.
+-   **POST** `/api/login`: Log in a user and return a JWT token.
+-   **POST** `/api/logout`: Logout user.
+-   **POST** `/api/refresh-auth`: Take fresh access and refresh tokens.
+-   **GET** `/api/products`: Get all products (supports pagination and filtering).
+-   **GET** `/api/products/:id`: Get a product by ID.
+-   **POST** `/api/products`: Create a new product.
+-   **PUT** `/api/products/:id`: Update a product.
+-   **DELETE** `/api/products/:id`: Delete a product.
 
-   ```bash
-   npm run dev
-   ```
+### GraphQL API
 
-   or
+You can access the GraphQL API at `/graphql`. Example queries:
 
-   ```bash
-   yarn dev
-   ```
+-   **Fetch all products**:
 
-7. Access the API:
+    ```graphql
+    query {
+        getAllProducts {
+            _id
+            name
+            price
+            qty
+        }
+    }
+    ```
 
-   Open your web browser or API testing tool and access `http://localhost:3000`.
+-   **Create a new product**:
 
-## Project Structure
+    ```graphql
+    mutation {
+        createProduct(name: "Product Name", price: 100, qty: 5) {
+            _id
+            name
+            price
+        }
+    }
+    ```
 
-```
-.
-├── src/                        # Source files
-│   ├── config/                 # Configuration files
-│   ├── controllers/            # Request handlers/controllers
-│   ├── db/                     # Database related files
-│   ├── helper/                 # Helper functions
-│   ├── middleware/             # Middleware functions
-│   ├── models/                 # MongoDB models
-│   ├── routes/                 # Route definitions
-│   ├── services/               # Business logic services
-│   ├── types/                  # Type definitions
-│   ├── utils/                  # Utility functions
-│   ├── validations/            # Validator files
-│   ├── app.ts                  # Express application setup
-├── index.ts                    # Entry point of the application
-├── .env.example                # Example environment variables file
-├── .eslintignore               # ESLint ignore file
-├── .eslintrc.js                # ESLint configuration
-├── .gitignore                  # Git ignore file
-├── .prettierignore             # Prettier ignore file
-├── .prettierrc.json            # Prettier configuration file
-├── package.json                # Project dependencies and scripts
-├── README.md                   # README file
-└── tsconfig.json               # TypeScript configuration
-```
+## Database
 
-## Available Scripts
+-   The project uses **MongoDB** as the database. You can either run a local instance of MongoDB or use a cloud-based solution like **MongoDB Atlas**.
 
-- `npm start` or `yarn start`: Start the server.
-- `npm run dev` or `yarn dev`: Start the server in development mode with hot reloading using nodemon.
-- `npm run build` or `yarn build`: Build the TypeScript files into JavaScript.
-- `npm run lint` or `yarn lint`: Lint the codebase using ESLint.
-- `npm test` or `yarn test`: Run tests using Jest.
+## Logging
 
-## Contributing
+-   The project uses **Winston** for logging errors and HTTP requests. All logs are stored in the console by default.
 
-Contributions are welcome! Feel free to open an issue or submit a pull request for any improvements or features you'd like to add.
+## Linting and Formatting
 
-#
+-   **ESLint** and **Prettier** are configured for maintaining code quality and formatting.
 
-Feel free to customize this `README.md` template according to your project's specific needs and features. Happy coding!
+## Future Enhancements
+
+-   **Testing**: Add unit and integration tests.
+-   **Performance**: Optimize queries and database interactions.
+-   **Security**: Implement rate limiting, request validation, and other security enhancements.
